@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SPortal.RoleAuthorization
 {
-   public class PortalAdministratorsAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, User>
+   public class PortalAdministratorsAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, AppUser>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                        OperationAuthorizationRequirement requirement,
-                                                        User resource)
+                                                        AppUser resource)
         {
             if (context.User == null)
             {

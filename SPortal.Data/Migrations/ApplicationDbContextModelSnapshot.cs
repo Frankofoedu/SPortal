@@ -15,7 +15,7 @@ namespace SPortal.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -63,57 +63,6 @@ namespace SPortal.Data.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -136,11 +85,9 @@ namespace SPortal.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -171,17 +118,97 @@ namespace SPortal.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Sportal.Models.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Country")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .IsRequired();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int>("Gender");
+
+                    b.Property<DateTime?>("LastLogin");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("OtherNames")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("StateOfOrigin")
+                        .IsRequired();
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<Guid>("UserID");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("AppUser");
                 });
 
             modelBuilder.Entity("Sportal.Models.Section", b =>
@@ -218,44 +245,9 @@ namespace SPortal.Data.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("Sportal.Models.User", b =>
-                {
-                    b.Property<Guid>("UserID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Country");
-
-                    b.Property<DateTime?>("DateOfBirth");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("Gender");
-
-                    b.Property<DateTime?>("LastLogin");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("OtherNames");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("StateOfOrigin");
-
-                    b.HasKey("UserID");
-
-                    b.ToTable("AppUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-                });
-
             modelBuilder.Entity("Sportal.Models.Parent", b =>
                 {
-                    b.HasBaseType("Sportal.Models.User");
+                    b.HasBaseType("Sportal.Models.AppUser");
 
                     b.Property<string>("Address");
 
@@ -270,13 +262,11 @@ namespace SPortal.Data.Migrations
 
             modelBuilder.Entity("Sportal.Models.Student", b =>
                 {
-                    b.HasBaseType("Sportal.Models.User");
+                    b.HasBaseType("Sportal.Models.AppUser");
 
                     b.Property<string>("Image");
 
-                    b.Property<Guid?>("ParentID");
-
-                    b.Property<string>("Password");
+                    b.Property<string>("P_ID");
 
                     b.Property<string>("RegNo");
 
@@ -284,7 +274,7 @@ namespace SPortal.Data.Migrations
 
                     b.Property<Guid?>("SubjectID");
 
-                    b.HasIndex("ParentID");
+                    b.HasIndex("P_ID");
 
                     b.HasIndex("SectionID");
 
@@ -305,7 +295,7 @@ namespace SPortal.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("Sportal.Models.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -313,7 +303,7 @@ namespace SPortal.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("Sportal.Models.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -326,7 +316,7 @@ namespace SPortal.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("Sportal.Models.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -334,7 +324,7 @@ namespace SPortal.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("Sportal.Models.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -344,7 +334,7 @@ namespace SPortal.Data.Migrations
                 {
                     b.HasOne("Sportal.Models.Parent", "Parent")
                         .WithMany("Wards")
-                        .HasForeignKey("ParentID");
+                        .HasForeignKey("P_ID");
 
                     b.HasOne("Sportal.Models.Section", "Section")
                         .WithMany("Students")

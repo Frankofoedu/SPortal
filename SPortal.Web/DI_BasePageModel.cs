@@ -14,12 +14,12 @@ namespace SPortal
     {
         protected ApplicationDbContext Context { get; }
         protected IAuthorizationService AuthorizationService { get; }
-        protected UserManager<IdentityUser> UserManager { get; }
+        protected UserManager<AppUser> UserManager { get; }
 
         public DI_BasePageModel(
             ApplicationDbContext context,
             IAuthorizationService authorizationService,
-            UserManager<IdentityUser> userManager) : base()
+            UserManager<AppUser> userManager) : base()
         {
             Context = context;
             UserManager = userManager;

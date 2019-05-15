@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sportal.Models", "Sportal.Models\Sportal.Models.csproj", "{664C8778-8ABC-4406-9DC2-CCD179E3E7F7}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPortal.Data", "SPortal.Data\SPortal.Data.csproj", "{C36352E2-1742-45F1-8E04-9BB3211518A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPortal.Web", "SPortal.Web\SPortal.Web.csproj", "{66F569FB-4ADD-4E7F-A396-34C310DB686F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sportal.Services", "Sportal.Services\Sportal.Services.csproj", "{901C5F4F-468E-4315-98F0-AA1331C9CE60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{66F569FB-4ADD-4E7F-A396-34C310DB686F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66F569FB-4ADD-4E7F-A396-34C310DB686F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66F569FB-4ADD-4E7F-A396-34C310DB686F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{901C5F4F-468E-4315-98F0-AA1331C9CE60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{901C5F4F-468E-4315-98F0-AA1331C9CE60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{901C5F4F-468E-4315-98F0-AA1331C9CE60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{901C5F4F-468E-4315-98F0-AA1331C9CE60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

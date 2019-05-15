@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SPortal.Data.Migrations
 {
-    public partial class @new : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,28 +23,32 @@ namespace SPortal.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "Sections",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    SectionID = table.Column<Guid>(nullable: false),
+                    ClassID = table.Column<Guid>(nullable: false),
+                    SectionName = table.Column<string>(nullable: true),
+                    Decription = table.Column<string>(nullable: true),
+                    StaffID = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_Sections", x => x.SectionID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subjects",
+                columns: table => new
+                {
+                    SubjectID = table.Column<Guid>(nullable: false),
+                    SubjectName = table.Column<string>(nullable: true),
+                    ClassID = table.Column<Guid>(nullable: false),
+                    StaffID = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subjects", x => x.SubjectID);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,6 +70,67 @@ namespace SPortal.Data.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(maxLength: 100, nullable: false),
+                    OtherNames = table.Column<string>(maxLength: 100, nullable: true),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    Gender = table.Column<int>(nullable: false),
+                    StateOfOrigin = table.Column<string>(nullable: false),
+                    Country = table.Column<string>(nullable: false),
+                    LastLogin = table.Column<DateTime>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
+                    AltPhoneNumber = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Occupation = table.Column<string>(nullable: true),
+                    SectionID = table.Column<Guid>(nullable: true),
+                    P_ID = table.Column<string>(nullable: true),
+                    RegNo = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    SubjectID = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_AspNetUsers_P_ID",
+                        column: x => x.P_ID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Sections_SectionID",
+                        column: x => x.SectionID,
+                        principalTable: "Sections",
+                        principalColumn: "SectionID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Subjects_SubjectID",
+                        column: x => x.SubjectID,
+                        principalTable: "Subjects",
+                        principalColumn: "SubjectID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,8 +158,8 @@ namespace SPortal.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -138,8 +203,8 @@ namespace SPortal.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -152,102 +217,6 @@ namespace SPortal.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Sections",
-                columns: table => new
-                {
-                    SectionID = table.Column<Guid>(nullable: false),
-                    ClassID = table.Column<Guid>(nullable: false),
-                    SectionName = table.Column<string>(nullable: true),
-                    Decription = table.Column<string>(nullable: true),
-                    StaffID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sections", x => x.SectionID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subjects",
-                columns: table => new
-                {
-                    SubjectID = table.Column<Guid>(nullable: false),
-                    SubjectName = table.Column<string>(nullable: true),
-                    ClassID = table.Column<Guid>(nullable: false),
-                    StaffID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subjects", x => x.SubjectID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppUsers",
-                columns: table => new
-                {
-                    UserID = table.Column<Guid>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    OtherNames = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    StateOfOrigin = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    LastLogin = table.Column<DateTime>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false),
-                    AltPhoneNumber = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    Occupation = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Position = table.Column<string>(nullable: true),
-                    Image = table.Column<string>(nullable: true),
-                    SectionID = table.Column<Guid>(nullable: true),
-                    ParentID = table.Column<Guid>(nullable: true),
-                    RegNo = table.Column<string>(nullable: true),
-                    Student_Password = table.Column<string>(nullable: true),
-                    Student_Image = table.Column<string>(nullable: true),
-                    SubjectID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppUsers", x => x.UserID);
-                    table.ForeignKey(
-                        name: "FK_AppUsers_AppUsers_ParentID",
-                        column: x => x.ParentID,
-                        principalTable: "AppUsers",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AppUsers_Sections_SectionID",
-                        column: x => x.SectionID,
-                        principalTable: "Sections",
-                        principalColumn: "SectionID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AppUsers_Subjects_SubjectID",
-                        column: x => x.SubjectID,
-                        principalTable: "Subjects",
-                        principalColumn: "SubjectID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppUsers_ParentID",
-                table: "AppUsers",
-                column: "ParentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppUsers_SectionID",
-                table: "AppUsers",
-                column: "SectionID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppUsers_SubjectID",
-                table: "AppUsers",
-                column: "SubjectID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -289,42 +258,23 @@ namespace SPortal.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sections_StaffID",
-                table: "Sections",
-                column: "StaffID");
+                name: "IX_AspNetUsers_P_ID",
+                table: "AspNetUsers",
+                column: "P_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subjects_StaffID",
-                table: "Subjects",
-                column: "StaffID");
+                name: "IX_AspNetUsers_SectionID",
+                table: "AspNetUsers",
+                column: "SectionID");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Sections_AppUsers_StaffID",
-                table: "Sections",
-                column: "StaffID",
-                principalTable: "AppUsers",
-                principalColumn: "UserID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Subjects_AppUsers_StaffID",
-                table: "Subjects",
-                column: "StaffID",
-                principalTable: "AppUsers",
-                principalColumn: "UserID",
-                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_SubjectID",
+                table: "AspNetUsers",
+                column: "SubjectID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_AppUsers_Sections_SectionID",
-                table: "AppUsers");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_AppUsers_Subjects_SubjectID",
-                table: "AppUsers");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -351,9 +301,6 @@ namespace SPortal.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Subjects");
-
-            migrationBuilder.DropTable(
-                name: "AppUsers");
         }
     }
 }

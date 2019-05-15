@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sportal.Models
 {
-    public class Parent: User
+    public class Parent: AppUser
     {
         public string AltPhoneNumber { get; set; }
         public string Address { get; set; }

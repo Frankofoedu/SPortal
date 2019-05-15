@@ -28,14 +28,17 @@ namespace SPortal
 
                 var config = host.Services.GetRequiredService<IConfiguration>();
 
-                var adminPw = config["AdminPassword"];
+                //TODO: Remove on deployment
+
+                var adminPw = "Password0612?";//config["AdminPassword"];
+
+
                 try
                 {
                     SeedData.Initialize(services, adminPw).Wait();
                 }
                 catch (Exception ex)
                 {
-
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex.Message, "An error occurred seeding the DB.");
                 }

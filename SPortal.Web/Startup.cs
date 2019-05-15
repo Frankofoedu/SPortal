@@ -15,6 +15,9 @@ using SPortal.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SPortal.RoleAuthorization;
+using Sportal.Models;
+using Sportal.Services;
+using Sportal.Services.Repository;
 
 namespace SPortal
 {
@@ -40,7 +43,10 @@ namespace SPortal
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
+
+            services.AddIdentity<AppUser,IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
@@ -57,6 +63,9 @@ namespace SPortal
             services.AddSingleton<IAuthorizationHandler,
                          PortalAdministratorsAuthorizationHandler>();
 
+            //repository registration
+            //services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork<ApplicationDbContext>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +73,7 @@ namespace SPortal
         {
             if (env.IsDevelopment())
             {
+                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
