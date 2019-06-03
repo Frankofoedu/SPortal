@@ -1,5 +1,6 @@
 ﻿@page
 @model SPortal.Web.Pages.Admin.MStudents.NewStudentModel
+@using Sportal.Models;
 @{
     ViewData["Title"] = "NewStudent";
     Layout = "~/Pages/Shared/_AdminLayout.cshtml";
@@ -14,7 +15,7 @@
             <div class="section-divider"></div>
         </div>
     </div>
-    <form method="post" asp-validation-summary="ModelOnly" class="text-danger">
+    <form method="post" asp-validation-summary="ModelOnly" class="text-danger" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-12 clear-padding-xs">
                 <div class="col-md-12">
@@ -23,51 +24,63 @@
                         <div class="inner-item">
                             <div class="dash-form">
                                 <div class="col-sm-3">
-                                    <label class="clear-top-margin"><i class="fa fa-user-circle-o"></i>FIRST NAME</label>
-                                    <input type="text" placeholder="JOHN" />
+                                    <label asp-for="Student.FirstName" class="clear-top-margin"><i class="fa fa-user-circle-o"></i>FIRST NAME</label>
+                                    <input asp-for="Student.FirstName" type="text" placeholder="JOHN" />
+                                    <span asp-validation-for="Student.FirstName" class="text-danger"></span>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="clear-top-margin"><i class="fa fa-user-circle-o"></i>MIDDLE NAME</label>
-                                    <input type="text" placeholder="FIDLER" />
+                                    <label asp-for="Student.OtherNames" class="clear-top-margin"><i class="fa fa-user-circle-o"></i>MIDDLE NAME</label>
+                                    <input asp-for="Student.OtherNames" type="text" placeholder="FIDLER" />
+                                    <span asp-validation-for="Student.OtherNames" class="text-danger"></span>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="clear-top-margin"><i class="fa fa-user-circle-o"></i>LAST NAME</label>
-                                    <input type="text" placeholder="DOE" />
+                                    <label asp-for="Student.LastName" class="clear-top-margin"><i class="fa fa-user-circle-o"></i>LAST NAME</label>
+                                    <input asp-for="Student.LastName" type="text" placeholder="DOE" />
+                                    <span asp-validation-for="Student.LastName" class="text-danger"></span>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="clear-top-margin"><i class="fa fa-venus"></i>GENDER</label>
-                                    <select>
-                                        <option>-- Select --</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
+                                    <label asp-for="Student.Gender" class="clear-top-margin"><i class="fa fa-venus"></i>GENDER</label>
+
+                                    <select asp-for="Student.Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+
+                                        <option>Select</option>
                                     </select>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-sm-3">
-                                    <label><i class="fa fa-calendar"></i>DATE OF BIRTH</label>
-                                    <input type="text" id="studentDOB" placeholder="MM/DD/YYYY" />
+                                    <label asp-for="Student.DateOfBirth"><i class="fa fa-calendar"></i>DATE OF BIRTH</label>
+                                    <input asp-for="Student.DateOfBirth" type="text" id="studentDOB" placeholder="MM/DD/YYYY" />
+                                    <span asp-validation-for="Student.DateOfBirth" class="text-danger"></span>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label><i class="fa fa-phone"></i>PHONE #</label>
-                                    <input type="text" placeholder="1234567890" />
+                                    <label asp-for="Student.PhoneNumber"><i class="fa fa-phone"></i>PHONE #</label>
+                                    <input asp-for="Student.PhoneNumber" type="text" placeholder="1234567890" />
+
+                                    <span asp-validation-for="Student.PhoneNumber" class="text-danger"></span>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label><i class="fa fa-envelope-o"></i>EMAIL</label>
-                                    <input type="text" placeholder="john@pathshala.com" />
+                                    <label asp-for="Student.Email"><i class="fa fa-envelope-o"></i>EMAIL</label>
+                                    <input asp-for="Student.Email" type="text" placeholder="john@pathshala.com" />
+                                    <span asp-validation-for="Student.Email" class="text-danger"></span>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label><i class="fa fa-bell-o"></i>RELIGION</label>
-                                    <select>
-                                        <option>-- Select --</option>
-                                        <option>Buddhism</option>
-                                        <option>Christian</option>
-                                        <option>Hinduism</option>
-                                    </select>
+                                    <label asp-for="Student.Religion"><i class="fa fa-bell-o"></i>RELIGION</label>
+                                    <select asp-for="Student.Religion" asp-items="Html.GetEnumSelectList<ReligionEnum>()"></select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label asp-for="Student.Country"><i class="fa fa-envelope-o"></i>Country</label>
+                                    <input asp-for="Student.Country" type="text" placeholder="USA" />
+                                    <span asp-validation-for="Student.Country" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label asp-for="Student.StateOfOrigin"><i class="fa fa-envelope-o"></i>State</label>
+                                    <input asp-for="Student.StateOfOrigin" type="text" placeholder="USA" />
+                                    <span asp-validation-for="Student.StateOfOrigin" class="text-danger"></span>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-file-picture-o"></i>UPLOAD PHOTO</label>
-                                    <input type="file" placeholder="90890" />
+                                    <input type="file" asp-for="Image" placeholder="90890" />
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -165,45 +178,44 @@
                         <div class="inner-item">
                             <div class="dash-form">
                                 <div class="col-sm-3">
-                                    <label class="clear-top-margin"><i class="fa fa-id-card"></i>REGISTRATION #</label>
-                                    <input type="text" placeholder="PTH2017001" />
+                                    <label asp-for="Student.RegNo" class="clear-top-margin"><i class="fa fa-id-card"></i>REGISTRATION #</label>
+                                    <input asp-for="Student.RegNo" type="text" placeholder="PTH2017001" />
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="clear-top-margin"><i class="fa fa-book"></i>CLASS</label>
-                                    <select>
+                                    <label  class="clear-top-margin"><i class="fa fa-book"></i>CLASS</label>
+                                    <select onchange="getSections(this.value);" asp-items="Model.DClassess">
                                         <option>-- Select --</option>
-                                        <option>5 STD</option>
-                                        <option>6 STD</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="clear-top-margin"><i class="fa fa-cogs"></i>SECTION</label>
-                                    <select>
+                                   @* <a asp-page="../../DynamicData/Sections">Delete</a>*@
+                                    <select id="ddlsection" asp-for="Student.SectionID" asp-items="Model.Sections">
+
                                         <option>-- Select --</option>
-                                        <option>PTH05A</option>
-                                        <option>PTH05B</option>
+                                        
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="clear-top-margin"><i class="fa fa-puzzle-piece"></i>ROLL #</label>
-                                    <input type="text" placeholder="PTH05A01" />
+                                    <input type="text" disabled placeholder="PTH05A01" />
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-graduation-cap"></i>LAST SCHOOL</label>
-                                    <input type="text" placeholder="ABC SCHOOL" />
+                                    <input type="text" disabled placeholder="ABC SCHOOL" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-star"></i>LAST STD</label>
-                                    <input type="text" placeholder="4 STD" />
+                                    <input type="text" disabled placeholder="4 STD" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-code"></i>MARKS OBTAINED</label>
-                                    <input type="text" placeholder="76%" />
+                                    <input type="text" disabled placeholder="76%" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-futbol-o"></i>SPORTS</label>
-                                    <select>
+                                    <select disabled>
                                         <option>-- Select --</option>
                                         <option>Cricket</option>
                                         <option>Football</option>
@@ -212,8 +224,12 @@
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-sm-3">
-                                    <a type="submit" href="#"><i class="fa fa-paper-plane"></i> <input value="save" class="btn-sm" type="submit" /></a>
-                                    <input value="save" class="btn-sm" type="submit" />
+
+                                    <button value="save" class="btn btn-warning btn-lg" style="margin-top:20px;" type="submit">
+
+                                        <i class="fa fa-paper-plane"></i>
+                                        Submit
+                                    </button>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -225,4 +241,31 @@
         </div>
     </form>
 </div>
+
+<script>
+
+
+    function getSections(id) {
+        //alert("started" + id);
+        $.getJSON("https://localhost:5001/DynamicData/Sections?id=" + id,
+            function (result) {
+                // alert('Done');
+                $('#ddlsection').empty();
+                $('#ddlsection').append($('<option>').text("Select"));
+                $.each(result, function (i, obj) {
+
+                    $('#ddlsection').append($('<option>').text(obj.name).attr('value', obj.value));
+                });
+                console.log(result);
+            })
+            .fail(function (error) {
+                // alert('Done');
+                console.log(error);
+            });
+    };
+
+   
+    
+
+</script>
 

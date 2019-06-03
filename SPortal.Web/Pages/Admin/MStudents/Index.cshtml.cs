@@ -28,7 +28,7 @@ namespace SPortal.Web.Pages.Admin.MStudents
         }
         public async Task OnGetAsync()
         {
-            Students = await _unitOfWork.GetRepositoryInstance<Student>().FindAll().ToListAsync();
+            Students = await _unitOfWork.GetRepositoryInstance<Student>().FindAll().Include(x=> x.Section).ToListAsync();
             
         }
 

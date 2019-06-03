@@ -28,7 +28,7 @@
 
                         <table id="attendenceDetailedTable" class="display responsive nowrap" cellspacing="0" width="100%">
                             <thead>
-                                <tr>
+                                <tr >
                                     <th>
                                         @Html.DisplayNameFor(model => model.Students[0].Image)
                                     </th>
@@ -59,7 +59,7 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Students[0].LastLogin)
                                     </th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,7 +67,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            <img src="@item.Image" alt="Avatar" />
+                                            <img src="~/uploads/@item.Image" alt="Avatar" />
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.RegNo)
@@ -99,7 +99,7 @@
                                         <td>
                                             <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                                             <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                                            <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                                            <a onclick="testclick();" ajaxy>Delete</a>
                                         </td>
                                     </tr>
                                 }
@@ -111,3 +111,35 @@
         </div>
     </div>
 </div>
+<link href="~/template/css/jquery-ui.css" rel="stylesheet" />
+<script>
+    function testclick() {
+        alert('ddd');
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Delete all items": function () {
+                    $(this).dialog("close");
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    }
+    $(function testclick() {
+        alert('ddd');
+        
+    });
+    function DeleteStudent(id) {
+      
+        $("a[ajaxy]").click(function (e) {
+            // e.preventDefault();
+
+            alert("Ddd");
+        });
+    };
+</script>
