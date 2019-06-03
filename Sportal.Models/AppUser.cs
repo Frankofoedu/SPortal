@@ -11,9 +11,14 @@ namespace Sportal.Models
         M = 1, F = 2
     };
 
-   public class AppUser : IdentityUser
+    public enum ReligionEnum
     {
-        public Guid UserID { get; set; }
+        Islam = 1,
+        Christian = 2
+    }
+
+    public class AppUser : IdentityUser
+    {
 
         [Display(Name = "Name")]
         [Required(ErrorMessage = "Required")]
@@ -41,6 +46,9 @@ namespace Sportal.Models
         [Display(Name = "State")]
         [Required]
         public string StateOfOrigin { get; set; }
+
+        [Required]
+        public ReligionEnum Religion { get; set; }
 
         [Required]
         public string Country { get; set; }

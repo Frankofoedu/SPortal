@@ -8,8 +8,8 @@ namespace Sportal.Models
     {
         public Guid SubjectID { get; set; }
         public string SubjectName { get; set; }
-        public Guid ClassID { get; set; }
-        public Guid StaffID { get; set; }
+        public Guid dClassID { get; set; }
+        public string StaffID { get; set; }
         public virtual ICollection<Student> Students { get; set; }
                
     }

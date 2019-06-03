@@ -7,10 +7,10 @@ namespace Sportal.Models
     public class Section
     {
         public Guid SectionID { get; set; }
-        public Guid ClassID { get; set; }
+        public Guid dClassID { get; set; }
+        public string StaffID { get; set; }
         public string SectionName { get; set; }
         public string Decription { get; set; }
-        public Guid StaffID { get; set; }
         public ICollection<Student> Students { get; set; }
 
     }
