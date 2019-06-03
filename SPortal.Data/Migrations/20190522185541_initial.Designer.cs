@@ -10,14 +10,14 @@ using SPortal.Data;
 namespace SPortal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190504220755_initial")]
+    [Migration("20190522185541_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -186,14 +186,14 @@ namespace SPortal.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<int>("Religion");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<string>("StateOfOrigin")
                         .IsRequired();
 
                     b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<Guid>("UserID");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
@@ -213,20 +213,105 @@ namespace SPortal.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("AppUser");
                 });
 
+            modelBuilder.Entity("Sportal.Models.dClass", b =>
+                {
+                    b.Property<Guid>("dClassID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClassName");
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("dClassID");
+
+                    b.ToTable("dClasses");
+                });
+
+            modelBuilder.Entity("Sportal.Models.Event", b =>
+                {
+                    b.Property<int>("EventID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body");
+
+                    b.Property<DateTime>("DateAndTime");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("EventID");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Sportal.Models.Grade", b =>
+                {
+                    b.Property<int>("GradeID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("ExamDate");
+
+                    b.Property<int>("Score");
+
+                    b.Property<string>("Session");
+
+                    b.Property<int>("StaffID");
+
+                    b.Property<int>("StudentID");
+
+                    b.Property<int>("SubjectID");
+
+                    b.Property<string>("Term");
+
+                    b.HasKey("GradeID");
+
+                    b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("Sportal.Models.Message", b =>
+                {
+                    b.Property<int>("MessageID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body");
+
+                    b.Property<int>("FromID");
+
+                    b.Property<string>("FromType");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<DateTime>("Time");
+
+                    b.Property<int>("ToID");
+
+                    b.Property<string>("ToType");
+
+                    b.Property<bool>("isRead");
+
+                    b.HasKey("MessageID");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Sportal.Models.Section", b =>
                 {
                     b.Property<Guid>("SectionID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ClassID");
-
                     b.Property<string>("Decription");
 
                     b.Property<string>("SectionName");
 
-                    b.Property<Guid>("StaffID");
+                    b.Property<string>("StaffID");
+
+                    b.Property<Guid>("dClassID");
 
                     b.HasKey("SectionID");
+
+                    b.HasIndex("dClassID");
 
                     b.ToTable("Sections");
                 });
@@ -236,13 +321,15 @@ namespace SPortal.Data.Migrations
                     b.Property<Guid>("SubjectID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ClassID");
-
-                    b.Property<Guid>("StaffID");
+                    b.Property<string>("StaffID");
 
                     b.Property<string>("SubjectName");
 
+                    b.Property<Guid>("dClassID");
+
                     b.HasKey("SubjectID");
+
+                    b.HasIndex("dClassID");
 
                     b.ToTable("Subjects");
                 });
@@ -329,6 +416,22 @@ namespace SPortal.Data.Migrations
                     b.HasOne("Sportal.Models.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Sportal.Models.Section", b =>
+                {
+                    b.HasOne("Sportal.Models.dClass")
+                        .WithMany("Sections")
+                        .HasForeignKey("dClassID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Sportal.Models.Subject", b =>
+                {
+                    b.HasOne("Sportal.Models.dClass")
+                        .WithMany("Subjects")
+                        .HasForeignKey("dClassID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

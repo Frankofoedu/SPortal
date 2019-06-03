@@ -23,32 +23,70 @@ namespace SPortal.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sections",
+                name: "dClasses",
                 columns: table => new
                 {
-                    SectionID = table.Column<Guid>(nullable: false),
-                    ClassID = table.Column<Guid>(nullable: false),
-                    SectionName = table.Column<string>(nullable: true),
-                    Decription = table.Column<string>(nullable: true),
-                    StaffID = table.Column<Guid>(nullable: false)
+                    dClassID = table.Column<Guid>(nullable: false),
+                    ClassName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sections", x => x.SectionID);
+                    table.PrimaryKey("PK_dClasses", x => x.dClassID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subjects",
+                name: "Events",
                 columns: table => new
                 {
-                    SubjectID = table.Column<Guid>(nullable: false),
-                    SubjectName = table.Column<string>(nullable: true),
-                    ClassID = table.Column<Guid>(nullable: false),
-                    StaffID = table.Column<Guid>(nullable: false)
+                    EventID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
+                    DateAndTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subjects", x => x.SubjectID);
+                    table.PrimaryKey("PK_Events", x => x.EventID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grades",
+                columns: table => new
+                {
+                    GradeID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SubjectID = table.Column<int>(nullable: false),
+                    StaffID = table.Column<int>(nullable: false),
+                    StudentID = table.Column<int>(nullable: false),
+                    Score = table.Column<int>(nullable: false),
+                    Term = table.Column<string>(nullable: true),
+                    Session = table.Column<string>(nullable: true),
+                    ExamDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grades", x => x.GradeID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    MessageID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    isRead = table.Column<bool>(nullable: false),
+                    FromType = table.Column<string>(nullable: true),
+                    ToType = table.Column<string>(nullable: true),
+                    FromID = table.Column<int>(nullable: false),
+                    ToID = table.Column<int>(nullable: false),
+                    Subject = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
+                    Time = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.MessageID);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,6 +111,47 @@ namespace SPortal.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sections",
+                columns: table => new
+                {
+                    SectionID = table.Column<Guid>(nullable: false),
+                    dClassID = table.Column<Guid>(nullable: false),
+                    StaffID = table.Column<string>(nullable: true),
+                    SectionName = table.Column<string>(nullable: true),
+                    Decription = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sections", x => x.SectionID);
+                    table.ForeignKey(
+                        name: "FK_Sections_dClasses_dClassID",
+                        column: x => x.dClassID,
+                        principalTable: "dClasses",
+                        principalColumn: "dClassID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subjects",
+                columns: table => new
+                {
+                    SubjectID = table.Column<Guid>(nullable: false),
+                    SubjectName = table.Column<string>(nullable: true),
+                    dClassID = table.Column<Guid>(nullable: false),
+                    StaffID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subjects", x => x.SubjectID);
+                    table.ForeignKey(
+                        name: "FK_Subjects_dClasses_dClassID",
+                        column: x => x.dClassID,
+                        principalTable: "dClasses",
+                        principalColumn: "dClassID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -91,13 +170,13 @@ namespace SPortal.Data.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    UserID = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 100, nullable: false),
                     LastName = table.Column<string>(maxLength: 100, nullable: false),
                     OtherNames = table.Column<string>(maxLength: 100, nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<int>(nullable: false),
                     StateOfOrigin = table.Column<string>(nullable: false),
+                    Religion = table.Column<int>(nullable: false),
                     Country = table.Column<string>(nullable: false),
                     LastLogin = table.Column<DateTime>(nullable: true),
                     Discriminator = table.Column<string>(nullable: false),
@@ -271,6 +350,16 @@ namespace SPortal.Data.Migrations
                 name: "IX_AspNetUsers_SubjectID",
                 table: "AspNetUsers",
                 column: "SubjectID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sections_dClassID",
+                table: "Sections",
+                column: "dClassID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subjects_dClassID",
+                table: "Subjects",
+                column: "dClassID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -291,6 +380,15 @@ namespace SPortal.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Events");
+
+            migrationBuilder.DropTable(
+                name: "Grades");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -301,6 +399,9 @@ namespace SPortal.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Subjects");
+
+            migrationBuilder.DropTable(
+                name: "dClasses");
         }
     }
 }

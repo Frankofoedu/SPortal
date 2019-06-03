@@ -16,6 +16,8 @@ namespace SPortal.Data
     {
         public static void SeedDB(ApplicationDbContext context, string adminId)
         {
+          
+
 
             // Look for any db data.
             if (context.AppUsers.OfType<Student>().Any())
@@ -25,13 +27,13 @@ namespace SPortal.Data
             
 
             var testFakeStudents = new Faker<Student>()
-                                        .RuleFor(st => st.UserID, f => f.Random.Guid())
+                                       // .RuleFor(st => st.UserID, f => f.Random.Guid())
                                         .RuleFor(st => st.Country, f => f.Address.Country())
                                         .RuleFor(st => st.DateOfBirth, f => f.Person.DateOfBirth)
                                         .RuleFor(st => st.Email, f => f.Person.Email)
                                         .RuleFor(st => st.FirstName, f => f.Person.FirstName)
                                         .RuleFor(st => st.Gender, f => f.PickRandom<Gender>())
-                                        .RuleFor(st => st.Image, f => f.Person.Avatar)
+                                       // .RuleFor(st => st.Image, f => f.Person.Avatar)
                                         .RuleFor(st => st.LastLogin, f => f.Date.Recent(10))
                                         .RuleFor(st => st.LastName, f => f.Person.LastName)
                                         .RuleFor(st => st.PhoneNumber, f => f.Person.Phone)
@@ -39,7 +41,7 @@ namespace SPortal.Data
                                         .RuleFor(st => st.StateOfOrigin, f => f.Address.State());
 
             var testFakeParent = new Faker<Parent>()
-                                        .RuleFor(st => st.UserID, f => f.Random.Guid())
+                                       // .RuleFor(st => st.UserID, f => f.Random.Guid())
                                         .RuleFor(st => st.Country, f => f.Address.Country())
                                         .RuleFor(st => st.DateOfBirth, f => f.Person.DateOfBirth)
                                         .RuleFor(st => st.Email, f => f.Person.Email)
@@ -54,12 +56,31 @@ namespace SPortal.Data
                                         .RuleFor(st => st.Occupation, f => f.Person.Company.Name);
 
 
+            var classess = new List<dClass>()
+            {
+                new dClass { ClassName = "Jss1"},
+                new dClass {  ClassName = "Jss2" },
+                new dClass { ClassName = "Jss3"},
+                new dClass { ClassName = "Sss1"}
+            };
+
+
+            var sections = new List<Section>()
+            {
+                new Section {dClassID = new Guid("186b00d8-3ffa-4467-4034-08d6deecacf1"), SectionName = "JSS1A"},
+                new Section {dClassID = new Guid("186b00d8-3ffa-4467-4034-08d6deecacf1"), SectionName = "JSS1B"},
+                new Section {dClassID = new Guid("186b00d8-3ffa-4467-4034-08d6deecacf1"), SectionName = "JSS1C"},
+            };
+
+
 
 
             List<Parent> ptList = testFakeParent.Generate(20);
             List<Student> studs = testFakeStudents.Generate(20);
 
+            context.Sections.AddRange(sections);
             context.AppUsers.AddRange(studs);
+            context.dClasses.AddRange(classess);
             context.SaveChanges();
         }
         public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
@@ -90,7 +111,7 @@ namespace SPortal.Data
             {
 
                 var testFakeStaff = new Faker<Staff>()
-                                            .RuleFor(st => st.UserID, f => f.Random.Guid())
+                                          //.RuleFor(st => st.UserID, f => f.Random.Guid())
                                             .RuleFor(st => st.Country, f => f.Address.Country())
                                             .RuleFor(st => st.DateOfBirth, f => f.Person.DateOfBirth)
                                             .RuleFor(st => st.Email, f => f.Person.Email)

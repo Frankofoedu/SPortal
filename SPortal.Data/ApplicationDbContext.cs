@@ -17,6 +17,11 @@ namespace SPortal.Data
         public DbSet<Section> Sections { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
+        public DbSet<dClass> dClasses { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Grade> Grades { get; set; }
+        public DbSet<Message> Messages { get; set; }
+
 
 
     }        
