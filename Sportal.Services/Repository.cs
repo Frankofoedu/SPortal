@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,6 +33,11 @@ namespace Sportal.Services
         public IQueryable<TEntity> FindAll()
         {
             return _dbContext.Set<TEntity>();
+        }
+
+        public IQueryable<TEntity> FindByCondition(Expression<Func<TEntity, bool>> expression)
+        {
+            return _dbContext.Set<TEntity>().Where(expression).AsNoTracking();
         }
 
         public Task<TEntity> FindById(string id)
