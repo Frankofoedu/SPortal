@@ -67,6 +67,7 @@
                                     <label asp-for="Student.Religion"><i class="fa fa-bell-o"></i>RELIGION</label>
                                     <select asp-for="Student.Religion" asp-items="Html.GetEnumSelectList<ReligionEnum>()"></select>
                                 </div>
+                                <div class="clearfix"></div>
                                 <div class="col-sm-3">
                                     <label asp-for="Student.Country"><i class="fa fa-envelope-o"></i>Country</label>
                                     <input asp-for="Student.Country" type="text" placeholder="USA" />
@@ -77,7 +78,6 @@
                                     <input asp-for="Student.StateOfOrigin" type="text" placeholder="USA" />
                                     <span asp-validation-for="Student.StateOfOrigin" class="text-danger"></span>
                                 </div>
-                                <div class="clearfix"></div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-file-picture-o"></i>UPLOAD PHOTO</label>
                                     <input type="file" asp-for="Image" placeholder="90890" />
@@ -92,16 +92,16 @@
                         <div class="inner-item">
                             <div class="dash-form">
                                 <div class="col-sm-3">
-                                    <label class="clear-top-margin"><i class="fa fa-user-circle-o"></i>FATHER NAME</label>
-                                    <input type="text" placeholder="JOHN" />
+                                    <label class="clear-top-margin"><i class="fa fa-user-circle-o"></i>FIRST NAME</label>
+                                    <input type="text" asp-for="Parent.FirstName" placeholder="JOHN" />
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="clear-top-margin"><i class="fa fa-user-circle-o"></i>MOTHER NAME</label>
-                                    <input type="text" placeholder="LENNORE" />
+                                    <label class="clear-top-margin"><i class="fa fa-user-circle-o"></i>LAST NAME</label>
+                                    <input type="text" asp-for="Parent.LastName" placeholder="LENNORE" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="clear-top-margin"><i class="fa fa-briefcase"></i>OCCUPATION</label>
-                                    <select>
+                                    <select asp-for="Parent.Occupation">
                                         <option>-- Select --</option>
                                         <option>Teacher</option>
                                         <option>Doctor</option>
@@ -109,65 +109,50 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="clear-top-margin"><i class="fa fa-phone"></i>CONTACT #</label>
-                                    <input type="text" placeholder="1234567890" />
+                                    <input type="text" asp-for="Parent.PhoneNumber" placeholder="1234567890" />
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-phone"></i>ALTERNATE CONTACT #</label>
-                                    <input type="text" placeholder="1234567890" />
+                                    <input type="text" asp-for="Parent.AltPhoneNumber" placeholder="1234567890" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-envelope-o"></i>EMAIL</label>
-                                    <input type="text" placeholder="john@pathshala.com" />
+                                    <input type="text" asp-for="Parent.Email" placeholder="john@pathshala.com" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-bell-o"></i>RELIGION</label>
-                                    <select>
+                                    <select asp-items="Html.GetEnumSelectList<ReligionEnum>()" asp-for="Parent.Religion">
                                         <option>-- Select --</option>
-                                        <option>Buddhism</option>
-                                        <option>Christian</option>
-                                        <option>Hinduism</option>
+                                       
                                     </select>
+                                </div>
+
+                                <div class="clearfix"></div>
+                                <div class="col-sm-3">
+                                    <label><i class="fa fa-home"></i>ADDRESS</label>
+                                    <input type="text" asp-for="Parent.Address" placeholder="H/N 42 Street# 10" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-flag"></i>NATIONALITY</label>
-                                    <select>
+                                    <select asp-for="Parent.Country">
                                         <option>-- Select --</option>
                                         <option>Canadian</option>
                                         <option>Indian</option>
                                     </select>
                                 </div>
-                                <div class="clearfix"></div>
-                                <div class="col-sm-3">
-                                    <label><i class="fa fa-home"></i>ADDRESS</label>
-                                    <input type="text" placeholder="H/N 42 Street# 10" />
-                                </div>
-                                <div class="col-sm-3">
-                                    <label><i class="fa fa-flag"></i>COUNTRY</label>
-                                    <select>
-                                        <option>-- Select --</option>
-                                        <option>Canada</option>
-                                        <option>India</option>
-                                        <option>Japan</option>
-                                    </select>
-                                </div>
+
                                 <div class="col-sm-3">
                                     <label><i class="fa fa-id-card"></i>STATE</label>
-                                    <select>
+                                    <select asp-for="Parent.StateOfOrigin">
                                         <option>-- Select --</option>
                                         <option>British Columbia</option>
                                         <option>Ontario</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-3">
-                                    <label><i class="fa fa-code"></i>ZIP</label>
-                                    <input type="text" placeholder="90890" />
-                                </div>
+                               
                                 <div class="clearfix"></div>
-                                <div class="col-sm-3">
-                                    <label><i class="fa fa-file-picture-o"></i>UPLOAD PHOTO</label>
-                                    <input type="file" placeholder="90890" />
-                                </div>
+                                
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -264,7 +249,24 @@
             });
     };
 
-   
+   function oldParent() {
+			$get("<%=hfNewOrOldParent.ClientID%>").value = "false";
+			$("#newParent").hide(500);
+			$("#btnOldParent").hide(500);
+			$("#oldParent").show(500);
+			$("#btnNewParent").show(500);
+		}
+		function newParent() {
+			$get("<%=hfNewOrOldParent.ClientID%>").value = "true";
+			$("#newParent").show(500);
+			$("#btnOldParent").show(500);
+			$("#oldParent").hide(500);
+			$("#btnNewParent").hide(500);
+		}
+
+		function ClientItemSelected(sender, e) {
+			window.$get("<%=hfParentID.ClientID%>").value = e.get_value();
+		}
     
 
 </script>

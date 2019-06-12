@@ -43,7 +43,7 @@ namespace SPortal.Data
             var testFakeParent = new Faker<Parent>()
                                        // .RuleFor(st => st.UserID, f => f.Random.Guid())
                                         .RuleFor(st => st.Country, f => f.Address.Country())
-                                        .RuleFor(st => st.DateOfBirth, f => f.Person.DateOfBirth)
+                                        //.RuleFor(st => st.DateOfBirth, f => f.Person.DateOfBirth)
                                         .RuleFor(st => st.Email, f => f.Person.Email)
                                         .RuleFor(st => st.FirstName, f => f.Person.FirstName)
                                         .RuleFor(st => st.Gender, f => f.PickRandom<Gender>())

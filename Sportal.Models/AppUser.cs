@@ -34,10 +34,7 @@ namespace Sportal.Models
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Please enter a valid name")]
         public string OtherNames { get; set; }
 
-        [Display(Name = "BirthDay")]
-        [DataType(DataType.Date)]
-        [Required]
-        public DateTime? DateOfBirth { get; set; }
+        
 
         [Display(Name = "Sex")]
         [Required]

@@ -37,8 +37,8 @@ namespace SPortal.Web.Pages.Admin.MStudents
         [BindProperty]
         public Student Student { get; set; }
 
-        //[BindProperty]
-        //public Parent Parent { get; set; }
+        [BindProperty]
+        public Parent Parent { get; set; }
 
         public IActionResult OnGet()
         {
@@ -62,7 +62,9 @@ namespace SPortal.Web.Pages.Admin.MStudents
         public async Task<IActionResult> OnPostAsync()
         {
 
-            var imgPath = GetImageFileName();
+            var imgPath = GetImageFileName(Image);
+
+            
 
             if (!ModelState.IsValid || imgPath == null)
             {
@@ -84,20 +86,23 @@ namespace SPortal.Web.Pages.Admin.MStudents
            
 
             _unitOfWork.GetRepositoryInstance<Student>().Add(Student);
+
+            _unitOfWork.GetRepositoryInstance<Parent>().Add(Parent);
+
             await _unitOfWork.SaveAsync();
 
             return RedirectToPage("./Index");
         }
 
 
-        string GetImageFileName()
+        string GetImageFileName(IFormFile formFile)
         {
-            if (Image != null)
+            if (formFile != null)
             {
-                var fileName = Image.FileName;
+                var fileName = formFile.FileName;
                 var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
                 var filePath = Path.Combine(uploads, fileName);
-                Image.CopyTo(new FileStream(filePath, FileMode.Create));
+                formFile.CopyTo(new FileStream(filePath, FileMode.Create));
 
 
                 return fileName;
