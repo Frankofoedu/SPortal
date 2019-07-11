@@ -9,6 +9,7 @@ namespace Sportal.Models
     {
         public string Position { get; set; }
         public string Image { get; set; }
+
         [Display(Name = "BirthDay")]
         [DataType(DataType.Date)]
         [Required]
