@@ -78,9 +78,18 @@ namespace SPortal.Data
             List<Parent> ptList = testFakeParent.Generate(20);
             List<Student> studs = testFakeStudents.Generate(20);
 
+            context.dClasses.AddRange(classess);
+            context.SaveChanges();
+
+            var jss1id = context.dClasses.First(x => x.ClassName == "Jss1").dClassID;
+
+            foreach (var item in sections)
+            {
+                item.dClassID = jss1id;
+            }
+
             context.Sections.AddRange(sections);
             context.AppUsers.AddRange(studs);
-            context.dClasses.AddRange(classess);
             context.SaveChanges();
         }
         public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
